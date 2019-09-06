@@ -9,9 +9,11 @@ include Generator
 
 command, *args = ARGV
 
+dir = "/home/vagrant/simurgh"
+
 if command=="scaffold"
-    Generator::Laravel::Migration::generate(args) 
-    Generator::Laravel::Controller::generate(args)
-    Generator::Laravel::Model::generate(args)
-    Generator::Vue::Component::generate(args)
+    Generator::Laravel::Migration::generate(dir, args) 
+    Generator::Laravel::Controller::generate(dir, args)
+    Generator::Laravel::Model::generate(dir, args)
+    Generator::Vue::Component::generate(dir, args)
 end

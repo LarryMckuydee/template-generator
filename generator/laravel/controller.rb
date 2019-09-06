@@ -2,7 +2,7 @@ module Generator
     module Laravel
         module Controller
             extend self
-            def generate(args)
+            def generate(dir, args)
                 # ruby main.rb scaffold Model column:type,require_or_nullable:form_type
                 model, *args = args
 
@@ -39,7 +39,7 @@ module Generator
 
                 replaced_data = replaced_data.gsub 'VALIDATOR_CONTENT', validator_contents
 
-                open(filename, 'w') { |f|  
+                open(dir + '/app/Http/Controllers/Api/' + filename, 'w') { |f|  
                     f.write replaced_data  
                 }
                 puts "Laravel controller generate complete. #{filename}"
@@ -62,6 +62,8 @@ module Generator
                         return "'#{column_name}' => '#{required}|integer',"
                     when data_type == "text"
                         return "'#{column_name}' => '#{required}|string',"
+                    when data_type == "decimal"
+                        return "'#{column_name}' => '#{required}|number',"
                     when data_type == "boolean"
                         return "'#{column_name}' => '#{required}|boolean',"
                     when data_type == "bigIncrements"

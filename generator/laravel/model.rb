@@ -2,7 +2,7 @@ module Generator
     module Laravel
         module Model
             extend self
-            def generate(args)
+            def generate(dir, args)
                 # ruby main.rb scaffold Model column:type,require_or_nullable:form_type
                 model, *args = args
 
@@ -28,7 +28,7 @@ module Generator
 
                 replaced_data = replaced_data.gsub 'FILLABLE_CONTENT', fillable_contents
 
-                open(filename, 'w') { |f|  
+                open(dir + '/app/' + filename, 'w') { |f|  
                     f.write replaced_data  
                 }
                 puts "Laravel model generate complete. #{filename}"

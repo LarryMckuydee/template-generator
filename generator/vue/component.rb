@@ -3,7 +3,7 @@ module Generator
         module Component
             # currently not support array input eg: countries[]
             extend self
-            def generate(args)
+            def generate(dir, args)
                 # ruby main.rb scaffold Model column:type:form_type
                 model, *args = args
 
@@ -33,6 +33,8 @@ module Generator
                     variable = arg.split ':'
                     column, column_type, form_type, *args = variable 
 
+                    next if form_type.nil?
+
                     vue_form = VueForm.new
                     body_content.concat vue_form.assign_form_input(model, column, form_type, args)
                     body_content.concat "\n"
@@ -54,7 +56,7 @@ module Generator
                 replaced_data = replaced_data.gsub 'MODELS', model_content
                 replaced_data = replaced_data.gsub 'REFERS', refers_content
 
-                open(filename, 'w') { |f|  
+                open(dir + '/resources/js/components/' + filename, 'w') { |f|  
                     f.write replaced_data  
                 }
                 puts "Vue form generate complete. #{filename}"

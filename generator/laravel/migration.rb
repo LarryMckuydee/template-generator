@@ -2,7 +2,7 @@ module Generator
     module Laravel
         module Migration
             extend self
-            def generate(args)
+            def generate(dir, args)
                 # ruby main.rb scaffold Model column:type,require_or_nullable:form_type
                 model, *args = args
 
@@ -37,7 +37,7 @@ module Generator
 
                 replaced_data = replaced_data.gsub 'input_up_variable', input_up_variable
 
-                open(filename, 'w') { |f|  
+                open(dir + '/database/migrations/' + filename, 'w') { |f|  
                     f.write replaced_data  
                 }
                 puts "Laravel migration generate complete. #{filename}"
@@ -58,6 +58,7 @@ module Generator
                     line << "$table->text('#{column_name}')" if data_type == "text"
                     line << "$table->jsonb('#{column_name}')" if data_type == "jsonb"
                     line << "$table->boolean('#{column_name}')" if data_type == "boolean"
+                    line << "$table->decimal('#{column_name}', 6, 2)" if data_type == "decimal"
                     line << "$table->bigIncrements('#{column_name}')" if data_type == "bigIncrements"
                     line << "->nullable()" if nullable == 'nullable'
 
