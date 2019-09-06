@@ -3,7 +3,7 @@ module Generator
         module Migration
             extend self
             def generate(args)
-                # ruby main.rb scaffold Model column:type:form_type
+                # ruby main.rb scaffold Model column:type,require_or_nullable:form_type
                 model, *args = args
 
                 class_name = "Create#{model.pluralize}Table"
@@ -27,11 +27,11 @@ module Generator
                     #split column:type:form_type
                     variable = arg.split ':'
                     column_name = variable[0]
-                    column_type = variable[1]
-                    form_type = variable[2]
+                    type_and_require = variable[1]
+                    data_type, nullable = type_and_require.split ','
 
                     laravel_data_type = LaravelDataType.new
-                    input_up_variable.concat laravel_data_type.assign_data_type(column_type, column_name)
+                    input_up_variable.concat laravel_data_type.assign_data_type(column_name, data_type, nullable)
                     input_up_variable.concat "\n            "
                 end
 
@@ -48,16 +48,20 @@ module Generator
             end
 
             class LaravelDataType
-                def assign_data_type(data_type = '', column_name = '')
-                    return "$table->timestamps();" if column_name == '' and data_type == "timestamps"
-                    return "$table->dropColumn('#{column_name}');" if data_type == "dropColumn"
-                    return "$table->unsignedBigInteger('#{column_name}');" if data_type == "unsignedBigInteger"
-                    return "$table->string('#{column_name}');" if data_type == "string"
-                    return "$table->integer('#{column_name}');" if data_type == "integer"
-                    return "$table->text('#{column_name}');" if data_type == "text"
-                    return "$table->jsonb('#{column_name}');" if data_type == "jsonb"
-                    return "$table->boolean('#{column_name}');" if data_type == "boolean"
-                    return "$table->bigIncrements('#{column_name}');" if data_type == "bigIncrements"
+                def assign_data_type(column_name = '', data_type = '', nullable = '')
+                    line = ''
+                    line << "$table->timestamps()" if column_name == '' and data_type == "timestamps"
+                    line << "$table->dropColumn('#{column_name}')" if data_type == "dropColumn"
+                    line << "$table->unsignedBigInteger('#{column_name}')" if data_type == "unsignedBigInteger"
+                    line << "$table->string('#{column_name}')" if data_type == "string"
+                    line << "$table->integer('#{column_name}')" if data_type == "integer"
+                    line << "$table->text('#{column_name}')" if data_type == "text"
+                    line << "$table->jsonb('#{column_name}')" if data_type == "jsonb"
+                    line << "$table->boolean('#{column_name}')" if data_type == "boolean"
+                    line << "$table->bigIncrements('#{column_name}')" if data_type == "bigIncrements"
+                    line << "->nullable()" if nullable == 'nullable'
+
+                    return line << ';'
                 end
             end
         end
