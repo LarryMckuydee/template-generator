@@ -55,6 +55,7 @@ module Generator
                     line << "$table->unsignedBigInteger('#{column_name}')" if data_type == "unsignedBigInteger"
                     line << "$table->string('#{column_name}')" if data_type == "string"
                     line << "$table->integer('#{column_name}')" if data_type == "integer"
+                    line << "$table->tinyInteger('#{column_name}')" if data_type == "tinyInteger"
                     line << "$table->text('#{column_name}')" if data_type == "text"
                     line << "$table->jsonb('#{column_name}')" if data_type == "jsonb"
                     line << "$table->boolean('#{column_name}')" if data_type == "boolean"

@@ -60,6 +60,8 @@ module Generator
                         return "'#{column_name}' => '#{required}|string',"
                     when data_type == "integer"
                         return "'#{column_name}' => '#{required}|integer',"
+                    when data_type == "tinyInteger"
+                        return "'#{column_name}' => '#{required}|integer',"
                     when data_type == "text"
                         return "'#{column_name}' => '#{required}|string',"
                     when data_type == "decimal"
