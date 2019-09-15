@@ -13,6 +13,11 @@ if command == "scaffold"
     Generator::Laravel::Model::generate(dir, args)
     Generator::Vue::Component::generate(dir, args)
 
+elsif command == "mmc"
+    Generator::Laravel::Migration::generate(dir, args) 
+    Generator::Laravel::Controller::generate(dir, args)
+    Generator::Laravel::Model::generate(dir, args)
+
 elsif command == "test"
     
     Generator::Laravel::Migration::foo 

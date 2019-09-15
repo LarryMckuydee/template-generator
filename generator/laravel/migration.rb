@@ -57,10 +57,13 @@ module Generator
                     line << "$table->integer('#{column_name}')" if data_type == "integer"
                     line << "$table->tinyInteger('#{column_name}')" if data_type == "tinyInteger"
                     line << "$table->text('#{column_name}')" if data_type == "text"
+                    line << "$table->dateTime('#{column_name}')" if data_type == "dateTime"
                     line << "$table->jsonb('#{column_name}')" if data_type == "jsonb"
                     line << "$table->boolean('#{column_name}')" if data_type == "boolean"
                     line << "$table->decimal('#{column_name}', 6, 2)" if data_type == "decimal"
                     line << "$table->bigIncrements('#{column_name}')" if data_type == "bigIncrements"
+                    line << "$table->morphs('#{column_name}')" if data_type == "morphs"
+                    line << "$table->uuidMorphs('#{column_name}')" if data_type == "uuidMorphs"
                     line << "->nullable()" if nullable == 'nullable'
 
                     return line << ';'

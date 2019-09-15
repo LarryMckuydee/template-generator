@@ -77,6 +77,8 @@ module Generator
                     case form_type
                     when "text"
                         FormInputType.text_input(model_name, modelName, column_name, columnName, labelName)
+                    when "date"
+                        FormInputType.date_input(model_name, modelName, column_name, columnName, labelName)
                     when "select"
                         # ruby main.rb scaffold Model column:type:form_type:refers
                         FormInputType.select(model_name, modelName, column_name, columnName, labelName, additional_args)
@@ -88,7 +90,7 @@ module Generator
                         FormInputType.checkbox(model_name, modelName, column_name, columnName, labelName, additional_args)
                     when "textarea"
                         # ruby main.rb scaffold Model column:type:form_type
-                        FormInputType.text_input(model_name, modelName, column_name, columnName, labelName)
+                        FormInputType.textarea(model_name, modelName, column_name, columnName, labelName)
                     else
                         raise 'FormInputType keyed in is not supported.'
                     end
@@ -119,6 +121,21 @@ module Generator
                 <label for="#{modelName}#{columnName.camelize}">#{labelName}</label>
                 <input 
                         type="text" 
+                        v-model="#{model_name}.#{column_name}" 
+                        class="form-control" 
+                         id="#{modelName}#{columnName.camelize}"
+                />
+        </div> 
+											HTML
+                    end
+
+                    def date_input(model_name, modelName, column_name, columnName, labelName)
+                        return <<-HTML
+        <!-- #{labelName} -->
+        <div class="form-group">
+                <label for="#{modelName}#{columnName.camelize}">#{labelName}</label>
+                <input 
+                        type="date" 
                         v-model="#{model_name}.#{column_name}" 
                         class="form-control" 
                          id="#{modelName}#{columnName.camelize}"

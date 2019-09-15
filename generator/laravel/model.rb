@@ -22,6 +22,8 @@ module Generator
                     column, type_and_require, form_type, *args = variable 
                     data_type, nullable = type_and_require.split ','
 
+                    next if data_type == "uuidMorphs" or data_type == "morphs"
+
                     fillable_contents.concat "'#{column}',"
                     fillable_contents.concat "\n            "
                 end
