@@ -10,7 +10,7 @@ module Generator
                 modelName = "#{model.camelize(:lower)}"
                 model_name = "#{model.underscore}"
                 
-                route_filename = model.downcase.pluralize
+                route_filename = model.underscore.pluralize
 
                 data =
                     File.read(
