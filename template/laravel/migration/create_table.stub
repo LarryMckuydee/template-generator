@@ -16,6 +16,7 @@ class ClassName extends Migration
         Schema::create('tablename', function (Blueprint $table) {
             $table->bigIncrements('id');
             input_up_variable
+            $table->softDeletes();
             $table->timestamps();
         });
     }

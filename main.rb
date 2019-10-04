@@ -24,4 +24,6 @@ elsif command == "test"
     Generator::Laravel::Controller::foo
     Generator::Laravel::Model::foo
     Generator::Vue::Component::foo
+else
+    puts "Option not recognize"
 end
