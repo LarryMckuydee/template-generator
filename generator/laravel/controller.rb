@@ -67,7 +67,7 @@ module Generator
                     when data_type == "dateTime"
                         return "'#{column_name}' => '#{required}|date',"
                     when data_type == "decimal"
-                        return "'#{column_name}' => '#{required}|number',"
+                        return "'#{column_name}' => '#{required}|numeric',"
                     when data_type == "boolean"
                         return "'#{column_name}' => '#{required}|boolean',"
                     when data_type == "bigIncrements"
