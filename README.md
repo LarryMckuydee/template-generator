@@ -43,6 +43,7 @@ Database column type options:
 | jsonb | jsonb |
 | integer | integer |
 | bigIncrements | bigIncrements |
+| dateTime | dateTime |
 
 
 Form input type options:
@@ -54,4 +55,5 @@ Form input type options:
 | radio | <input type="radio"/> | radio_value,radio_label | radio_value and radio_label are use to assign value and label for radio options, eg: <input type="radio" value="0" /> <label>False</label>, you can assign the options by adding form_type:0,False. It can be multiple value and label too, form_type:0,False:1,True  |
 | checkbox | <input type="checkbox" /> | checkbox_value,checkbox_label | checkbox_value and checkbox_label are use to assign value and label for checkbox options, eg: <input type="checkbox" value="0" /> <label>False</label>, you can assign the options by adding form_type:0,False. It can be multiple value and label too, form_type:0,False:1,True  |
 | textarea | <textarea /> | | |
+| date | <input type="date"/> | | |
 

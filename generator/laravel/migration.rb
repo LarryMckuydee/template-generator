@@ -66,6 +66,8 @@ module Generator
                     line << "$table->uuidMorphs('#{column_name}')" if data_type == "uuidMorphs"
                     line << "->nullable()" if nullable == 'nullable'
 
+                    raise "Data Type not supported. (#{data_type})" if line.blank?
+
                     return line << ';'
                 end
             end

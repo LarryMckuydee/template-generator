@@ -79,7 +79,7 @@ module Generator
                     when data_type == "morphs"
                         return ""
                     else
-                        raise "Validator not supported."
+                        raise "Validator not supported. (#{data_type})"
                     end
                 end
             end
