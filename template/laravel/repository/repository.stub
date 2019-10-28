@@ -1,0 +1,56 @@
+<?php
+
+namespace App\Repositories;
+
+use Validator;
+use App\ModelName;
+use App\Employee;
+use App\Repositories\RepositoryResource;
+use Illuminate\Http\Request;
+
+class ModelNameRepository
+{
+    use RepositoryResource;
+    
+    private $employee;
+    protected $model = ModelName::class;
+
+    
+
+    /**
+     * Set $employee
+     *
+     * @return void
+     */
+    public function setEmployee(Employee $employee)
+    {
+        $this->employee = $employee;
+        return $this;
+    }
+
+    /**
+     * Validate payload from request
+     *
+     * @return void
+     */
+    public function validatedSingletonPayload(array $payload)
+    {
+        return Validator::make($payload, [
+            'id' => 'nullable|integer',
+            VALIDATOR_CONTENT
+        ])->validate();
+    }
+
+    /**
+     * Validate a collection of payload from request
+     *
+     * @return void
+     */
+    public function validatedBatchPayload(array $payload)
+    {
+        return Validator::make($payload, [
+            'batch.*.id' => 'nullable|integer',
+            BATCH_VALIDATOR_CONTENT
+        ])->validate();
+    }
+}

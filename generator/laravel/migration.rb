@@ -37,10 +37,22 @@ module Generator
 
                 replaced_data = replaced_data.gsub 'input_up_variable', input_up_variable
 
-                open(dir + '/database/migrations/' + filename, 'w') { |f|  
-                    f.write replaced_data  
-                }
-                puts "Laravel migration generate complete. #{filename}"
+                path = dir + '/database/migrations/' + filename
+
+                can_replace = true
+                if File.file?(path)
+                    print "File #{path} is already exists, are you sure you want to replace them? ({y}es/{n}o)" 
+                    can_replace = false if not ['yes','y'].include? STDIN.gets.rstrip 
+                end
+
+                if can_replace
+                    open(path, 'w') { |f|  
+                        f.write replaced_data  
+                    }
+                    puts "Laravel migration generate complete. #{filename}"
+                else
+                    puts "Laravel migration didn't generated."
+                end
             end
 
             def foo
@@ -64,6 +76,7 @@ module Generator
                     line << "$table->bigIncrements('#{column_name}')" if data_type == "bigIncrements"
                     line << "$table->morphs('#{column_name}')" if data_type == "morphs"
                     line << "$table->uuidMorphs('#{column_name}')" if data_type == "uuidMorphs"
+                    line << "$table->uuid('#{column_name}')" if data_type == "uuid"
                     line << "->nullable()" if nullable == 'nullable'
 
                     raise "Data Type not supported. (#{data_type})" if line.blank?

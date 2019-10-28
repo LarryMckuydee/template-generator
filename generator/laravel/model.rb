@@ -30,10 +30,22 @@ module Generator
 
                 replaced_data = replaced_data.gsub 'FILLABLE_CONTENT', fillable_contents
 
-                open(dir + '/app/' + filename, 'w') { |f|  
-                    f.write replaced_data  
-                }
-                puts "Laravel model generate complete. #{filename}"
+                path = dir + '/app/' + filename 
+
+                can_replace = true
+                if File.file?(path)
+                    print "File #{path} is already exists, are you sure you want to replace them? ({y}es/{n}o)" 
+                    can_replace = false if not ['yes','y'].include? STDIN.gets.rstrip 
+                end
+
+                if can_replace
+                    open(path, 'w') { |f|  
+                        f.write replaced_data  
+                    }
+                    puts "Laravel model generate complete. #{filename}"
+                else
+                    puts "Laravel model didn't generated."
+                end
             end
 
             def foo

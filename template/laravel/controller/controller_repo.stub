@@ -1,0 +1,133 @@
+<?php
+
+namespace App\Http\Controllers\Api;
+
+use App\ModelName;
+use App\Repositories\ModelNameRepository;
+use App\Http\Resources\ModelName as ResourceName;
+use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
+
+class ClassName extends Controller
+{
+    protected $modelNameRepository;
+
+    /**
+     * Initialize
+     *
+     * @return void
+     */
+    public function __construct(ModelNameRepository $modelNameRepository)
+    {
+        $this->modelNameRepository = $modelNameRepository;
+    }
+    
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index()
+    {
+        return ResourceName::collection(ClassName::paginate(5));
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request)
+    {
+        $payload = $this->validatedPayload($request);
+
+        $modelName = ModelName::create($payload);
+
+        return new ResourceName($modelName);
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  \App\ModelName  $modelName
+     * @return \Illuminate\Http\Response
+     */
+    public function show(ModelName $modelName)
+    {
+        return new ResourceName($modelName);
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  \App\ModelName  $modelName
+     * @return \Illuminate\Http\Response
+     */
+    public function edit(ModelName $modelName)
+    {
+        //
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\ModelName  $modelName
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, ModelName $modelName)
+    {
+        $payload = $this->validatedPayload($request);
+
+        $modelName->update($payload);
+
+        return new ResourceName($modelName);
+    }
+
+    /**
+     * Update or create the resource depends on parameter given
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function updateOrCreate(Request $request)
+    {
+        if ($request->has('batch')) {
+
+            $payloads = $this->modelNameRepository->validatedBatchPayload($request->all());
+
+            $model_names = $this->modelNameRepository->updateOrCreateBatch($payloads);
+            return ModelNameResource::collection($model_names);
+        } else {
+            $payload = $this->modelNameRepository->validatedSingletonPayload($request->all());
+
+            $modelName = $this->modelNameRepository->updateOrCreate($payload);
+            return new ModelNameResource($modelName);
+        }
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  \App\ModelName  $modelName
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy(ModelName $modelName)
+    {
+        $modelName->delete();
+
+        return response()->json([], 204);
+    }
+
+    /**
+     * Validate payload from request
+     *
+     * @return void
+     */
+    public function validatedPayload(Request $request)
+    {
+        return $request->validate([VALIDATOR_CONTENT]);
+    }
+}

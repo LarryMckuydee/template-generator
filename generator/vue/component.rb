@@ -56,10 +56,22 @@ module Generator
                 replaced_data = replaced_data.gsub 'MODELS', model_content
                 replaced_data = replaced_data.gsub 'REFERS', refers_content
 
-                open(dir + '/resources/js/components/' + filename, 'w') { |f|  
-                    f.write replaced_data  
-                }
-                puts "Vue form generate complete. #{filename}"
+                path = dir + '/resources/js/components/' + filename
+
+                can_replace = true
+                if File.file?(path)
+                    print "File #{path} is already exists, are you sure you want to replace them? ({y}es/{n}o)" 
+                    can_replace = false if not ['yes','y'].include? STDIN.gets.rstrip 
+                end
+
+                if can_replace
+                    open(path, 'w') { |f|  
+                        f.write replaced_data  
+                    }
+                    puts "Vue form generate complete. #{filename}"
+                else
+                    puts "Vue form didn't generated."
+                end
             end
 
             def foo
