@@ -17,7 +17,7 @@ class ClassName extends Controller
     public function index()
     {
         return ResourceName::collection(
-            ClassName::paginate(5)
+            ModelName::paginate(5)
         );
     }
 

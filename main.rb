@@ -5,7 +5,8 @@ include Generator
 
 command, *args = ARGV
 
-dir = "/home/vagrant/simurgh"
+#dir = "/home/vagrant/simurgh"
+dir = "/home/vagrant/jasper"
 
 if command == "scaffold"
     Generator::Laravel::Migration::generate(dir, args) 
@@ -16,6 +17,12 @@ if command == "scaffold"
 elsif command == "mmc"
     Generator::Laravel::Migration::generate(dir, args) 
     Generator::Laravel::Controller::generate(dir, args)
+    Generator::Laravel::Model::generate(dir, args)
+
+elsif command == "mmcr"
+    Generator::Laravel::Migration::generate(dir, args) 
+    Generator::Laravel::Controller::generate_repo(dir, args)
+    Generator::Laravel::Repository::generate(dir, args)
     Generator::Laravel::Model::generate(dir, args)
 
 elsif command == "scaffold_repo"
